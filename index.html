@@ -1,463 +1,963 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aman | HDX - Premium Digital Experiences</title>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HDX | Aman | Premium Digital Experiences</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                dark: '#030308',
+                card: 'rgba(10, 10, 20, 0.45)',
+                cardSelect: 'rgba(20, 20, 40, 0.65)',
+                purple: '#a855f7',
+                cyan: '#06b6d4',
+              }
+            },
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+              display: ['Outfit', 'sans-serif'],
+              mono: ['"Fira Code"', 'monospace']
+            }
+          }
+        }
+      }
+    </script>
+    
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animate On Scroll CDN -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Typed.js CDN -->
     <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Space+Grotesk:wght@300;500;700&display=swap');
+      /* Smooth scrollbehavior & customizations */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #030308;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #1e1b4b;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #3b0764;
+      }
+      
+      /* Glowing animations */
+      .glow-border {
+        position: relative;
+      }
+      .glow-border::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        padding: 1px;
+        background: linear-gradient(to bottom right, rgba(168,85,247,0.2), rgba(6,182,212,0.2));
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
+        transition: all 0.5s ease;
+      }
+      .glow-border:hover::after {
+        background: linear-gradient(to bottom right, #a855f7, #06b6d4);
+      }
+      
+      /* Glow circles in bg */
+      .bg-gradient-glow {
+        filter: blur(120px);
+        mix-blend-mode: plus-lighter;
+      }
 
-        :root {
-            --bg-dark: #050505;
-            --accent-purple: #a855f7;
-            --accent-cyan: #06b6d4;
-            --deep-navy: #0a0a0f;
-            --glass: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.1);
-        }
+      /* Custom pulse keyframe */
+      @keyframes slow-pulse {
+        0%, 100% { opacity: 0.15; transform: scale(1); }
+        50% { opacity: 0.3; transform: scale(1.1); }
+      }
+      .animate-slow-pulse {
+        animation: slow-pulse 10s infinite ease-in-out;
+      }
 
-        body {
-            background-color: var(--bg-dark);
-            color: #ffffff;
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
-
-        h1, h2, h3, .font-space {
-            font-family: 'Space Grotesk', sans-serif;
-        }
-
-        /* Animated Background */
-        .bg-glow {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #050505 100%);
-        }
-
-        .glow-sphere {
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, transparent 70%);
-            border-radius: 50%;
-            filter: blur(60px);
-            animation: float 20s infinite alternate;
-        }
-
-        @keyframes float {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(100px, 100px); }
-        }
-
-        /* Glassmorphism */
-        .glass-card {
-            background: var(--glass);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .glass-card:hover {
-            border-color: var(--accent-cyan);
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(6, 182, 212, 0.2);
-        }
-
-        /* Neon Text & Borders */
-        .neon-text {
-            text-shadow: 0 0 10px rgba(168, 85, 247, 0.5), 0 0 20px rgba(6, 182, 212, 0.3);
-        }
-
-        .neon-border-btn {
-            position: relative;
-            background: transparent;
-            border: 1px solid var(--accent-purple);
-            transition: all 0.3s;
-            overflow: hidden;
-        }
-
-        .neon-border-btn:hover {
-            background: var(--accent-purple);
-            box-shadow: 0 0 25px var(--accent-purple);
-        }
-
-        .cyan-glow-btn {
-            background: var(--accent-cyan);
-            color: black;
-            font-weight: 700;
-            box-shadow: 0 0 15px var(--accent-cyan);
-            transition: all 0.3s;
-        }
-
-        .cyan-glow-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px var(--accent-cyan);
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg-dark); }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--accent-purple); }
-
-        /* Navbar Blur */
-        nav.scrolled {
-            background: rgba(5, 5, 5, 0.8);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        /* Skills Progress */
-        .progress-bar {
-            height: 6px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent-purple), var(--accent-cyan));
-            width: 0;
-            transition: width 1.5s ease-in-out;
-        }
+      /* Keyframes for float background elements */
+      @keyframes float-particle {
+        0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.3; }
+        50% { transform: translateY(-30px) translateX(15px); opacity: 0.7; }
+      }
+      .particle-float {
+        animation: float-particle 12s infinite ease-in-out;
+      }
+      
+      /* Glassmorphism utility */
+      .glass-morphic {
+        background: rgba(8, 8, 16, 0.6);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body class="bg-brand-dark text-gray-100 font-sans selection:bg-purple-600/30 selection:text-white overflow-x-hidden">
 
-    <div class="bg-glow">
-        <div class="glow-sphere" style="top: 10%; left: -10%;"></div>
-        <div class="glow-sphere" style="bottom: 10%; right: -10%; animation-delay: -5s;"></div>
+    <!-- Back to top button -->
+    <a href="#home" id="back-to-top" class="fixed right-6 bottom-6 z-50 p-3 rounded-full bg-purple-900/60 border border-purple-500/25 text-white backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300 hover:bg-purple-600 hover:-translate-y-1 hover:shadow-[0_0_15px_rgba(168,85,247,0.5)]">
+      <i class="fa-solid fa-arrow-up text-lg"></i>
+    </a>
+
+    <!-- BACKGROUND ENGINE -->
+    <div class="fixed inset-0 -z-50 bg-[#030308] overflow-hidden">
+      <!-- Full-screen hero background wallpaper -->
+      <div id="hero-bg" class="absolute inset-0 bg-cover bg-center bg-no-repeat scale-105 pointer-events-none transition-all duration-500 ease-out" 
+           style="background-image: url('https://w.wallhaven.cc/full/x6/wallhaven-x6lmoz.jpg'); font-size: 0;">
+      </div>
+      
+      <!-- Premium dark overlay with radial and directional fades to merge seamlessly into black base -->
+      <div class="absolute inset-0 bg-gradient-to-b from-[#030308]/50 via-[#030308]/85 to-[#030308] backdrop-blur-[2px]"></div>
+      
+      <!-- Static lighting vignette -->
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_40%,rgba(3,3,8,0.95)_100%)]"></div>
+
+      <!-- Left purple ambient glowing orb -->
+      <div class="absolute top-[20%] left-[-10%] w-[50vw] h-[50vw] max-w-[700px] rounded-full bg-purple-600/10 bg-gradient-glow animate-slow-pulse pointer-events-none"></div>
+      
+      <!-- Right cyan ambient glowing orb -->
+      <div class="absolute bottom-[20%] right-[-10%] w-[45vw] h-[45vw] max-w-[600px] rounded-full bg-cyan-500/10 bg-gradient-glow animate-slow-pulse pointer-events-none" style="animation-delay: 3s;"></div>
+
+      <!-- Exquisite small floating light particles -->
+      <div class="particle-float absolute rounded-full bg-purple-500/30 blur-[1px] pointer-events-none" style="width: 5px; height: 5px; top: 15%; left: 12%; animation-delay: 1s; animation-duration: 10s;"></div>
+      <div class="particle-float absolute rounded-full bg-cyan-400/30 blur-[1px] pointer-events-none" style="width: 7px; height: 7px; top: 45%; left: 85%; animation-delay: 3s; animation-duration: 15s;"></div>
+      <div class="particle-float absolute rounded-full bg-purple-400/20 blur-[1.5px] pointer-events-none" style="width: 6px; height: 6px; top: 75%; left: 25%; animation-delay: 5s; animation-duration: 14s;"></div>
+      <div class="particle-float absolute rounded-full bg-cyan-500/40 blur-[1px] pointer-events-none" style="width: 4px; height: 4px; top: 88%; left: 70%; animation-delay: 2s; animation-duration: 11s;"></div>
     </div>
 
-    <!-- Navigation -->
-    <nav class="fixed w-full z-50 transition-all duration-300 py-4" id="navbar">
-        <div class="container mx-auto px-6 flex justify-between items-center">
-            <div class="text-2xl font-bold font-space tracking-tighter">
-                <span class="text-white">HDX</span><span class="text-cyan-400">.</span>
-            </div>
-            <div class="hidden md:flex space-x-8 items-center font-medium text-sm uppercase tracking-widest text-gray-400">
-                <a href="#home" class="hover:text-white transition">Home</a>
-                <a href="#about" class="hover:text-white transition">About</a>
-                <a href="#services" class="hover:text-white transition">Services</a>
-                <a href="#projects" class="hover:text-white transition">Work</a>
-                <a href="#contact" class="hover:text-white transition">Contact</a>
-                <a href="https://wa.me/9433417691" class="cyan-glow-btn px-5 py-2 rounded-full text-xs">Let's Talk</a>
-            </div>
-            <div class="md:hidden text-2xl"><i class="fas fa-bars"></i></div>
-        </div>
-    </nav>
+    <!-- 1. STICKY NAVBAR -->
+    <header class="sticky top-0 z-50 w-full transition-all duration-300 pointer-events-auto" id="sticky-header">
+      <div class="w-full bg-[#030308]/65 backdrop-blur-md border-b border-white/5">
+        <nav class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between" id="navbar-main">
+          <!-- Logo -->
+          <a href="#home" class="flex items-center gap-2 group font-display text-2xl font-bold tracking-wider uppercase text-white hover:opacity-90 transition-opacity" id="nav-logo">
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-400 font-extrabold">HDX</span><span class="text-cyan-400">.</span>
+          </a>
 
-    <!-- Hero Section -->
-    <section id="home" class="min-h-screen flex items-center justify-center pt-20">
-        <div class="container mx-auto px-6 text-center">
-            <div data-aos="zoom-in" class="inline-block px-4 py-1 mb-6 border border-purple-500/30 rounded-full bg-purple-500/10 text-purple-400 text-sm font-semibold tracking-widest uppercase">
-                Premium Digital Experience
-            </div>
-            <h1 data-aos="fade-up" class="text-6xl md:text-8xl font-extrabold mb-4 leading-tight">
-                Aman <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-400">| HDX</span>
-            </h1>
-            <div class="text-xl md:text-2xl text-gray-300 mb-8 font-light tracking-wide">
-                <span id="typed"></span>
-            </div>
-            <p data-aos="fade-up" data-aos-delay="200" class="max-w-2xl mx-auto text-gray-400 mb-10 text-lg">
-                I create premium websites, hosting brands, and digital experiences that look modern, fast, and professional.
-            </p>
-            <div data-aos="fade-up" data-aos-delay="400" class="flex flex-col md:flex-row justify-center gap-4">
-                <a href="#projects" class="cyan-glow-btn px-10 py-4 rounded-xl text-lg">View My Work</a>
-                <a href="#contact" class="neon-border-btn px-10 py-4 rounded-xl text-lg text-white">Contact Me</a>
-            </div>
+          <!-- Desktop Navigation Menu -->
+          <div class="hidden md:flex items-center gap-8" id="menu-desktop">
+            <a href="#home" class="text-sm font-medium tracking-wide text-gray-400 hover:text-white transition-colors duration-200">Home</a>
+            <a href="#about" class="text-sm font-medium tracking-wide text-gray-400 hover:text-white transition-colors duration-200">About</a>
+            <a href="#services" class="text-sm font-medium tracking-wide text-gray-400 hover:text-white transition-colors duration-200">Services</a>
+            <a href="#projects" class="text-sm font-medium tracking-wide text-gray-400 hover:text-white transition-colors duration-200">Work</a>
+            <a href="#contact" class="text-sm font-medium tracking-wide text-gray-400 hover:text-white transition-colors duration-200">Contact</a>
+          </div>
+
+          <!-- Desktop CTA Button -->
+          <div class="hidden md:block" id="nav-cta-desktop">
+            <a href="#contact" class="px-6 py-2.5 rounded-full bg-gradient-to-r from-purple-600 to-cyan-500 text-sm font-semibold tracking-wide text-white shadow-[0_0_15px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_rgba(168,85,247,0.6)] hover:scale-[1.03] active:scale-[0.98] transition-all duration-300">
+              Let's Talk
+            </a>
+          </div>
+
+          <!-- Mobile Hamburger Toggle Button -->
+          <button class="md:hidden text-gray-400 hover:text-white focus:outline-none focus:text-white p-2" id="mobile-menu-btn" aria-label="Toggle menu">
+            <i class="fa-solid fa-bars-staggered text-2xl" id="menu-btn-icon"></i>
+          </button>
+        </nav>
+      </div>
+
+      <!-- Mobile Dropdown Sidebar Menu Container bottom backdrop visual -->
+      <div id="mobile-menu-bg" class="fixed inset-0 z-30 bg-black/50 backdrop-blur-sm hidden transition-opacity duration-300 opacity-0 md:hidden"></div>
+      <div id="mobile-menu" class="fixed inset-y-0 right-0 z-40 w-[290px] max-w-[85vw] bg-brand-dark/95 border-l border-white/10 backdrop-blur-xl transform translate-x-full transition-transform duration-300 ease-in-out md:hidden flex flex-col pt-24 px-8 gap-6 shadow-2xl">
+        <a href="#home" class="mobile-link text-lg font-medium text-gray-300 hover:text-white hover:translate-x-1 transition-all duration-200">Home</a>
+        <a href="#about" class="mobile-link text-lg font-medium text-gray-300 hover:text-white hover:translate-x-1 transition-all duration-200">About</a>
+        <a href="#services" class="mobile-link text-lg font-medium text-gray-300 hover:text-white hover:translate-x-1 transition-all duration-200">Services</a>
+        <a href="#projects" class="mobile-link text-lg font-medium text-gray-300 hover:text-white hover:translate-x-1 transition-all duration-200">Work</a>
+        <a href="#contact" class="mobile-link text-lg font-medium text-gray-300 hover:text-white hover:translate-x-1 transition-all duration-200">Contact</a>
+        <a href="#contact" class="mobile-link mt-6 block text-center px-6 py-3 rounded-full bg-gradient-to-r from-purple-600 to-cyan-500 text-sm font-semibold text-white shadow-[0_0_15px_rgba(168,85,247,0.3)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300">
+          Let's Talk
+        </a>
+      </div>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section id="home" class="relative min-h-[92vh] flex items-center justify-center px-6 pt-12 pb-24 overflow-hidden" style="margin-top: -80px;">
+      <div class="max-w-4xl mx-auto text-center z-10 flex flex-col items-center">
+        <!-- Subtitle Badge -->
+        <div class="inline-flex items-center gap-2 px-4.5 py-1.5 rounded-full glass-morphic text-[#06b6d4] text-[11px] font-semibold tracking-widest uppercase mb-6 shadow-[0_4px_12px_rgba(6,182,212,0.1)] border border-cyan-500/20" 
+             data-aos="fade-down" id="hero-badge">
+          <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span>
+          Premium Digital Experience
         </div>
+
+        <!-- Main Title -->
+        <h1 class="font-display text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white mb-6 uppercase" 
+            data-aos="fade-up" data-aos-delay="100" id="hero-title">
+          Aman <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-400">| HDX</span>
+        </h1>
+
+        <!-- Typing Animation Subheading -->
+        <div class="text-lg sm:text-2xl md:text-3xl text-gray-300 mb-8 min-h-[40px] font-family: sans" 
+             data-aos="fade-up" data-aos-delay="200" id="hero-typing">
+          <span class="text-gray-400 font-light">I'm a</span> <span id="typed-element" class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 font-bold"></span>
+        </div>
+
+        <!-- Description Paragraph -->
+        <p class="max-w-2xl text-sm sm:text-base md:text-lg text-gray-400/90 leading-relaxed mb-10" 
+           data-aos="fade-up" data-aos-delay="300" id="hero-desc">
+          I create premium websites, hosting brands, and digital experiences that look modern, fast, and professional.
+        </p>
+
+        <!-- Dynamic Action Buttons -->
+        <div class="flex flex-col sm:flex-row items-center gap-4.5 justify-center w-full sm:w-auto" 
+             data-aos="fade-up" data-aos-delay="400" id="hero-buttons">
+          <a href="#projects" class="w-full sm:w-auto px-8 py-4 rounded-full bg-gradient-to-r from-purple-600 to-cyan-500 text-sm font-semibold tracking-wide text-white text-center hover:scale-[1.03] active:scale-[0.98] hover:shadow-[0_0_30px_rgba(168,85,247,0.5)] transition-all duration-300">
+            View My Work <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+          </a>
+          <a href="#contact" class="w-full sm:w-auto px-8 py-4 rounded-full glass-morphic hover:bg-white/[0.08] hover:border-white/20 text-sm font-semibold tracking-wide text-white text-center hover:scale-[1.03] active:scale-[0.98] transition-all duration-300">
+            Contact Me
+          </a>
+        </div>
+      </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="py-24 bg-[#08080c]">
-        <div class="container mx-auto px-6">
-            <div class="grid md:grid-cols-2 gap-16 items-center">
-                <div data-aos="fade-right">
-                    <div class="glass-card p-8 relative overflow-hidden group">
-                        <div class="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-purple-500 to-cyan-500"></div>
-                        <h3 class="text-3xl font-bold mb-6">Aman aka <span class="text-cyan-400">HDX</span></h3>
-                        <p class="text-gray-400 leading-relaxed mb-6">
-                            I design premium, modern, and responsive websites for hosting brands, gaming communities, and businesses. I focus on clean design, fast performance, and high-converting user experience.
-                        </p>
-                        <p class="text-white font-semibold italic border-l-4 border-purple-500 pl-4 mb-8">
-                            “I turn ideas into clean, premium, and high-converting web experiences.”
-                        </p>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="bg-white/5 p-4 rounded-lg">
-                                <p class="text-xs text-gray-500 uppercase">Brand</p>
-                                <p class="text-lg font-bold">HDX Cloud</p>
-                            </div>
-                            <div class="bg-white/5 p-4 rounded-lg">
-                                <p class="text-xs text-gray-500 uppercase">Focus</p>
-                                <p class="text-lg font-bold">UI/UX & Hosting</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div data-aos="fade-left" class="space-y-6">
-                    <h2 class="text-4xl font-bold">Expertise & <span class="text-purple-500">Skills</span></h2>
-                    <div class="space-y-6">
-                        <div>
-                            <div class="flex justify-between mb-2"><span class="font-bold">Web Design</span><span>95%</span></div>
-                            <div class="progress-bar"><div class="progress-fill" style="width: 95%"></div></div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between mb-2"><span class="font-bold">Hosting Setup</span><span>90%</span></div>
-                            <div class="progress-bar"><div class="progress-fill" style="width: 90%"></div></div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between mb-2"><span class="font-bold">Discord Architecture</span><span>98%</span></div>
-                            <div class="progress-bar"><div class="progress-fill" style="width: 98%"></div></div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between mb-2"><span class="font-bold">Frontend (React/Tailwind)</span><span>85%</span></div>
-                            <div class="progress-bar"><div class="progress-fill" style="width: 85%"></div></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Services Section -->
-    <section id="services" class="py-24">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16" data-aos="fade-up">
-                <h2 class="text-4xl md:text-5xl font-bold mb-4">Premium <span class="text-cyan-400">Services</span></h2>
-                <div class="h-1 w-20 bg-cyan-400 mx-auto"></div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Card 1 -->
-                <div class="glass-card p-8" data-aos="fade-up" data-aos-delay="100">
-                    <i class="fas fa-layer-group text-4xl text-purple-500 mb-6"></i>
-                    <h3 class="text-xl font-bold mb-3">Website Design</h3>
-                    <p class="text-gray-400 text-sm">High-end, modern layouts tailored to your unique brand identity.</p>
-                </div>
-                <!-- Card 2 -->
-                <div class="glass-card p-8" data-aos="fade-up" data-aos-delay="200">
-                    <i class="fas fa-server text-4xl text-cyan-400 mb-6"></i>
-                    <h3 class="text-xl font-bold mb-3">Hosting Setup</h3>
-                    <p class="text-gray-400 text-sm">Professional WHMCS/Pterodactyl setups for your hosting business.</p>
-                </div>
-                <!-- Card 3 -->
-                <div class="glass-card p-8" data-aos="fade-up" data-aos-delay="300">
-                    <i class="fab fa-discord text-4xl text-indigo-500 mb-6"></i>
-                    <h3 class="text-xl font-bold mb-3">Discord Setup</h3>
-                    <p class="text-gray-400 text-sm">Advanced community & gaming server setups with custom bots.</p>
-                </div>
-                <!-- Card 4 -->
-                <div class="glass-card p-8" data-aos="fade-up" data-aos-delay="400">
-                    <i class="fas fa-gamepad text-4xl text-red-500 mb-6"></i>
-                    <h3 class="text-xl font-bold mb-3">Gaming Landings</h3>
-                    <p class="text-gray-400 text-sm">Aggressive, futuristic designs for teams and esports events.</p>
-                </div>
-                <!-- Row 2 -->
-                <div class="glass-card p-8" data-aos="fade-up" data-aos-delay="500">
-                    <i class="fas fa-briefcase text-4xl text-yellow-500 mb-6"></i>
-                    <h3 class="text-xl font-bold mb-3">Business Portfolios</h3>
-                    <p class="text-gray-400 text-sm">Clean and corporate websites to build professional trust.</p>
-                </div>
-                <div class="glass-card p-8" data-aos="fade-up" data-aos-delay="600">
-                    <i class="fas fa-pen-nib text-4xl text-pink-500 mb-6"></i>
-                    <h3 class="text-xl font-bold mb-3">Brand Identity</h3>
-                    <p class="text-gray-400 text-sm">Logo design and visual guidelines for a cohesive look.</p>
-                </div>
-                <div class="glass-card p-8" data-aos="fade-up" data-aos-delay="700">
-                    <i class="fas fa-code text-4xl text-green-500 mb-6"></i>
-                    <h3 class="text-xl font-bold mb-3">Frontend Dev</h3>
-                    <p class="text-gray-400 text-sm">Clean, efficient, and interactive code built with React/Next.js.</p>
-                </div>
-                <div class="glass-card p-8" data-aos="fade-up" data-aos-delay="800">
-                    <i class="fas fa-mobile-alt text-4xl text-blue-500 mb-6"></i>
-                    <h3 class="text-xl font-bold mb-3">Responsive UI</h3>
-                    <p class="text-gray-400 text-sm">Websites that look perfect on every device, from phone to desktop.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section id="projects" class="py-24 bg-[#030303]">
-        <div class="container mx-auto px-6">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-                <div data-aos="fade-right">
-                    <h2 class="text-4xl md:text-5xl font-bold mb-4">Selected <span class="text-purple-500">Projects</span></h2>
-                    <p class="text-gray-400">A showcase of premium digital works.</p>
-                </div>
-                <div data-aos="fade-left">
-                    <button class="neon-border-btn px-6 py-2 rounded-full text-sm uppercase">View All Projects</button>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Project 1 -->
-                <div class="group" data-aos="fade-up">
-                    <div class="relative overflow-hidden rounded-2xl mb-4 h-64 bg-gray-900 border border-white/5">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60"></div>
-                        <!-- Placeholder for Image -->
-                        <div class="flex items-center justify-center h-full text-gray-700 text-6xl group-hover:scale-110 transition duration-500">
-                            <i class="fas fa-cloud"></i>
-                        </div>
-                        <div class="absolute bottom-4 left-4">
-                            <span class="bg-cyan-500 text-black px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Hosting</span>
-                        </div>
-                    </div>
-                    <h3 class="text-xl font-bold group-hover:text-cyan-400 transition">HDX Cloud Hosting</h3>
-                    <p class="text-gray-400 text-sm">Full-stack hosting platform with WHMCS integration.</p>
-                </div>
-
-                <!-- Project 2 -->
-                <div class="group" data-aos="fade-up" data-aos-delay="100">
-                    <div class="relative overflow-hidden rounded-2xl mb-4 h-64 bg-gray-900 border border-white/5">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60"></div>
-                        <div class="flex items-center justify-center h-full text-gray-700 text-6xl group-hover:scale-110 transition duration-500">
-                            <i class="fas fa-gamepad"></i>
-                        </div>
-                        <div class="absolute bottom-4 left-4">
-                            <span class="bg-purple-500 text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Gaming</span>
-                        </div>
-                    </div>
-                    <h3 class="text-xl font-bold group-hover:text-purple-400 transition">Esports Portfolio</h3>
-                    <p class="text-gray-400 text-sm">Futuristic landing page for pro-gaming teams.</p>
-                </div>
-
-                <!-- Project 3 -->
-                <div class="group" data-aos="fade-up" data-aos-delay="200">
-                    <div class="relative overflow-hidden rounded-2xl mb-4 h-64 bg-gray-900 border border-white/5">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60"></div>
-                        <div class="flex items-center justify-center h-full text-gray-700 text-6xl group-hover:scale-110 transition duration-500">
-                            <i class="fab fa-discord"></i>
-                        </div>
-                        <div class="absolute bottom-4 left-4">
-                            <span class="bg-indigo-500 text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Community</span>
-                        </div>
-                    </div>
-                    <h3 class="text-xl font-bold group-hover:text-indigo-400 transition">HDX Hub Discord</h3>
-                    <p class="text-gray-400 text-sm">A highly automated server architecture for 5k+ members.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Why Choose Me Section -->
-    <section class="py-24">
-        <div class="container mx-auto px-6">
-            <div class="glass-card p-12 overflow-hidden relative">
-                <div class="absolute -right-20 -top-20 w-64 h-64 bg-purple-600/10 rounded-full blur-3xl"></div>
-                <div class="relative z-10 grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <div class="text-center" data-aos="zoom-in">
-                        <h4 class="text-4xl font-extrabold text-cyan-400 mb-2">Fast</h4>
-                        <p class="text-gray-400 uppercase text-xs tracking-widest">Delivery Time</p>
-                    </div>
-                    <div class="text-center" data-aos="zoom-in" data-aos-delay="100">
-                        <h4 class="text-4xl font-extrabold text-purple-400 mb-2">Premium</h4>
-                        <p class="text-gray-400 uppercase text-xs tracking-widest">UI/UX Standards</p>
-                    </div>
-                    <div class="text-center" data-aos="zoom-in" data-aos-delay="200">
-                        <h4 class="text-4xl font-extrabold text-cyan-400 mb-2">24/7</h4>
-                        <p class="text-gray-400 uppercase text-xs tracking-widest">Support Response</p>
-                    </div>
-                    <div class="text-center" data-aos="zoom-in" data-aos-delay="300">
-                        <h4 class="text-4xl font-extrabold text-purple-400 mb-2">100%</h4>
-                        <p class="text-gray-400 uppercase text-xs tracking-widest">Responsive</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="py-24">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-5xl md:text-7xl font-bold mb-10" data-aos="fade-up">Let's build something <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-400">premium</span> together.</h2>
+    <!-- 3. ABOUT SECTION -->
+    <section id="about" class="relative py-28 px-6 max-w-7xl mx-auto scroll-mt-20">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center" id="about-container">
+        <!-- Abstract glowing art grid -->
+        <div class="lg:col-span-5 relative" data-aos="fade-right" id="about-decor">
+          <div class="relative w-full aspect-square max-w-[400px] mx-auto rounded-2xl overflow-hidden glass-morphic glow-border p-3 group shadow-[0_0_40px_rgba(0,0,0,0.4)]">
+            <!-- Neon background visual inside card -->
+            <div class="absolute inset-0 bg-gradient-to-tr from-purple-900/40 via-cyan-900/20 to-black pointer-events-none"></div>
+            <!-- Grid Lines Decoration -->
+            <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px); background-size: 20px 20px;"></div>
             
-            <div class="flex flex-wrap justify-center gap-6 mt-12" data-aos="fade-up" data-aos-delay="200">
-                <a href="https://instagram.com/hdx_1.0" class="glass-card px-8 py-4 flex items-center gap-3 hover:text-pink-500 transition">
-                    <i class="fab fa-instagram text-2xl"></i>
-                    <span>@hdx_1.0</span>
-                </a>
-                <a href="#" class="glass-card px-8 py-4 flex items-center gap-3 hover:text-indigo-400 transition">
-                    <i class="fab fa-discord text-2xl"></i>
-                    <span>hdx_1.0</span>
-                </a>
-                <a href="https://wa.me/9433417691" class="glass-card px-8 py-4 flex items-center gap-3 hover:text-green-500 transition">
-                    <i class="fab fa-whatsapp text-2xl"></i>
-                    <span>9433417691</span>
-                </a>
+            <div class="relative w-full h-full rounded-xl bg-black/30 border border-white/5 p-6 flex flex-col justify-between overflow-hidden">
+              <div class="flex justify-between items-start">
+                <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-cyan-500 p-[1px]">
+                  <div class="w-full h-full rounded-[7px] bg-brand-dark flex items-center justify-center">
+                    <i class="fa-solid fa-medal text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-400"></i>
+                  </div>
+                </div>
+                <div class="text-[11px] font-mono text-cyan-400/90 py-1 px-2.5 rounded-full bg-cyan-950/40 border border-cyan-500/20">Active Owner</div>
+              </div>
+              
+              <div class="my-6">
+                <div class="text-xs font-mono text-purple-400 uppercase tracking-widest mb-2">Primary Entity</div>
+                <div class="text-3xl font-display font-extrabold text-white">HDX Cloud</div>
+                <p class="text-xs text-gray-400 mt-2 leading-relaxed">Providing high-performance hosting services for advanced infrastructures and gaming nodes.</p>
+              </div>
+
+              <div class="border-t border-white/5 pt-4 flex justify-between items-center text-xs text-gray-500">
+                <span>PORTFOLIO EDITIVITY</span>
+                <span class="font-mono text-white">2026.V1</span>
+              </div>
             </div>
+          </div>
         </div>
+
+        <!-- Text details -->
+        <div class="lg:col-span-7 flex flex-col justify-center" data-aos="fade-left" id="about-content">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="h-[1px] w-8 bg-purple-500"></span>
+            <span class="text-xs font-semibold uppercase tracking-widest text-purple-400">Owner & Operator</span>
+          </div>
+          
+          <!-- Glass card with left accent glow strip -->
+          <div class="glass-morphic border-l-4 border-l-purple-500 p-8 rounded-2xl shadow-xl shadow-purple-950/5 relative overflow-hidden" id="about-card">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <h2 class="font-display text-3xl sm:text-4xl font-bold tracking-tight text-white mb-6">
+              Aman aka HDX
+            </h2>
+            
+            <p class="text-[14px] sm:text-base text-gray-300 leading-relaxed mb-6">
+              I design premium, modern, and responsive websites for hosting brands, gaming communities, and businesses. I focus on clean design, fast performance, and high-converting user experience.
+            </p>
+
+            <blockquote class="border-l-2 border-cyan-500 pl-4 py-1 italic text-gray-300 text-sm sm:text-base font-light mb-8 max-w-xl">
+              “I turn ideas into clean, premium, and high-converting web experiences.”
+            </blockquote>
+
+            <!-- Horizontal Grid stats -->
+            <div class="grid grid-cols-2 gap-6 pt-2 border-t border-white/5">
+              <div class="p-4 rounded-xl bg-white/[0.01] border border-white/5 hover:border-purple-500/20 hover:bg-purple-950/5 transition-all duration-300">
+                <span class="text-xs font-mono text-purple-400 uppercase tracking-widest block mb-1">Brand</span>
+                <span class="text-lg font-bold text-white font-display">HDX Cloud</span>
+              </div>
+              <div class="p-4 rounded-xl bg-white/[0.01] border border-white/5 hover:border-cyan-500/20 hover:bg-cyan-950/5 transition-all duration-300">
+                <span class="text-xs font-mono text-cyan-400 uppercase tracking-widest block mb-1">Focus</span>
+                <span class="text-lg font-bold text-white font-display">UI/UX & Hosting</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="py-12 border-t border-white/5">
-        <div class="container mx-auto px-6 flex flex-col md:row justify-between items-center gap-6">
-            <div class="text-xl font-bold font-space">
-                HDX<span class="text-cyan-400">.</span>
-            </div>
-            <p class="text-gray-500 text-sm text-center">© 2026 HDX | Aman. All rights reserved.</p>
-            <div class="flex space-x-6 text-gray-400">
-                <a href="#" class="hover:text-white transition"><i class="fab fa-behance"></i></a>
-                <a href="#" class="hover:text-white transition"><i class="fab fa-github"></i></a>
-                <a href="#" class="hover:text-white transition"><i class="fab fa-twitter"></i></a>
-            </div>
+    <!-- 4. SKILLS SECTION -->
+    <section id="skills" class="relative py-28 px-6 bg-gradient-to-b from-brand-dark via-[#050510]/60 to-brand-dark scroll-mt-20">
+      <div class="max-w-4xl mx-auto" id="skills-container">
+        <!-- Section Header -->
+        <div class="text-center mb-16" data-aos="fade-up">
+          <div class="flex items-center justify-center gap-3 mb-4">
+            <span class="h-[1px] w-6 bg-cyan-400"></span>
+            <span class="text-xs font-semibold uppercase tracking-widest text-[#06b6d4]">My Technical Suite</span>
+            <span class="h-[1px] w-6 bg-cyan-400"></span>
+          </div>
+          <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-white tracking-tight uppercase">
+            Expertise & Skills
+          </h2>
         </div>
+
+        <!-- Skills Sheet Glass Panel -->
+        <div class="glass-morphic glow-border p-8 md:p-10 rounded-2xl shadow-2xl relative overflow-hidden flex flex-col gap-8" data-aos="fade-up" id="skills-panel">
+          <!-- Ambient spotlight -->
+          <div class="absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-96 h-96 bg-cyan-500/[0.02] rounded-full blur-3xl pointer-events-none"></div>
+
+          <!-- SKILLCARD 1 -->
+          <div class="skill-card flex flex-col gap-3 group">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-semibold text-gray-200 tracking-wide flex items-center gap-2.5">
+                <i class="fa-solid fa-palette text-purple-400 text-xs shadow-[0_0_10px_rgba(168,85,247,0.3)]"></i> 
+                Web Design
+              </span>
+              <span class="text-xs font-mono font-bold text-purple-400">95%</span>
+            </div>
+            <div class="w-full h-2.5 bg-black/40 rounded-full overflow-hidden p-[1px] border border-white/5">
+              <div class="progress-bar h-full rounded-full bg-gradient-to-r from-purple-600 to-purple-400 shadow-[0_0_12px_rgba(168,85,247,0.7)] transition-all duration-1000 ease-out" 
+                   data-percent="95%" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <!-- SKILLCARD 2 -->
+          <div class="skill-card flex flex-col gap-3 group">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-semibold text-gray-200 tracking-wide flex items-center gap-2.5">
+                <i class="fa-solid fa-server text-cyan-400 text-xs shadow-[0_0_10px_rgba(6,182,212,0.3)]"></i> 
+                Hosting Setup
+              </span>
+              <span class="text-xs font-mono font-bold text-cyan-400">90%</span>
+            </div>
+            <div class="w-full h-2.5 bg-black/40 rounded-full overflow-hidden p-[1px] border border-white/5">
+              <div class="progress-bar h-full rounded-full bg-gradient-to-r from-cyan-500 to-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.7)] transition-all duration-1000 ease-out" 
+                   data-percent="90%" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <!-- SKILLCARD 3 -->
+          <div class="skill-card flex flex-col gap-3 group">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-semibold text-gray-200 tracking-wide flex items-center gap-2.5">
+                <i class="fa-brands fa-discord text-purple-400 text-xs shadow-[0_0_10px_rgba(168,85,247,0.3)]"></i> 
+                Discord Architecture
+              </span>
+              <span class="text-xs font-mono font-bold text-purple-400">98%</span>
+            </div>
+            <div class="w-full h-2.5 bg-black/40 rounded-full overflow-hidden p-[1px] border border-white/5">
+              <div class="progress-bar h-full rounded-full bg-gradient-to-r from-purple-600 to-purple-400 shadow-[0_0_12px_rgba(168,85,247,0.7)] transition-all duration-1000 ease-out" 
+                   data-percent="98%" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <!-- SKILLCARD 4 -->
+          <div class="skill-card flex flex-col gap-3 group">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-semibold text-gray-200 tracking-wide flex items-center gap-2.5">
+                <i class="fa-solid fa-code text-cyan-400 text-xs shadow-[0_0_10px_rgba(6,182,212,0.3)]"></i> 
+                Frontend (React/Tailwind)
+              </span>
+              <span class="text-xs font-mono font-bold text-cyan-400">85%</span>
+            </div>
+            <div class="w-full h-2.5 bg-black/40 rounded-full overflow-hidden p-[1px] border border-white/5">
+              <div class="progress-bar h-full rounded-full bg-gradient-to-r from-cyan-500 to-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.7)] transition-all duration-1000 ease-out" 
+                   data-percent="85%" style="width: 0%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. SERVICES SECTION -->
+    <section id="services" class="relative py-28 px-6 max-w-7xl mx-auto scroll-mt-20">
+      <!-- Section Header -->
+      <div class="text-center mb-20" data-aos="fade-up">
+        <div class="flex items-center justify-center gap-3 mb-4">
+          <span class="h-[1px] w-6 bg-purple-500"></span>
+          <span class="text-xs font-semibold uppercase tracking-widest text-[#a855f7]">Elite Offerings</span>
+          <span class="h-[1px] w-6 bg-purple-500"></span>
+        </div>
+        <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-white tracking-tight uppercase">
+          Premium Services
+        </h2>
+      </div>
+
+      <!-- Services Grid. 8 Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="services-grid">
+        <!-- Service Card 1 -->
+        <div class="relative rounded-2xl glass-morphic glow-border p-6.5 flex flex-col h-full hover:bg-white/[0.04] hover:-translate-y-2 hover:shadow-[0_12px_32px_rgba(168,85,247,0.15)] transition-all duration-300 group overflow-hidden" 
+             data-aos="fade-up" data-aos-delay="50">
+          <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-5 group-hover:bg-purple-500 group-hover:text-white transition-all duration-300">
+            <i class="fa-solid fa-laptop-code text-purple-400 text-lg group-hover:text-white transition-colors"></i>
+          </div>
+          <h3 class="font-display text-lg font-bold text-white mb-2.5">Website Design</h3>
+          <p class="text-sm text-gray-400 leading-relaxed mt-auto">
+            High-end, modern layouts tailored to your unique brand identity.
+          </p>
+        </div>
+
+        <!-- Service Card 2 -->
+        <div class="relative rounded-2xl glass-morphic glow-border p-6.5 flex flex-col h-full hover:bg-white/[0.04] hover:-translate-y-2 hover:shadow-[0_12px_32px_rgba(6,182,212,0.15)] transition-all duration-300 group overflow-hidden" 
+             data-aos="fade-up" data-aos-delay="100">
+          <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center mb-5 group-hover:bg-cyan-500 group-hover:text-white transition-all duration-300">
+            <i class="fa-solid fa-server text-cyan-400 text-lg group-hover:text-white transition-colors"></i>
+          </div>
+          <h3 class="font-display text-lg font-bold text-white mb-2.5">Hosting Setup</h3>
+          <p class="text-sm text-gray-400 leading-relaxed mt-auto">
+            Professional WHMCS/Pterodactyl setups for your hosting business.
+          </p>
+        </div>
+
+        <!-- Service Card 3 -->
+        <div class="relative rounded-2xl glass-morphic glow-border p-6.5 flex flex-col h-full hover:bg-white/[0.04] hover:-translate-y-2 hover:shadow-[0_12px_32px_rgba(168,85,247,0.15)] transition-all duration-300 group overflow-hidden" 
+             data-aos="fade-up" data-aos-delay="150">
+          <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-5 group-hover:bg-purple-500 group-hover:text-white transition-all duration-300">
+            <i class="fa-brands fa-discord text-purple-400 text-lg group-hover:text-white transition-colors"></i>
+          </div>
+          <h3 class="font-display text-lg font-bold text-white mb-2.5">Discord Setup</h3>
+          <p class="text-sm text-gray-400 leading-relaxed mt-auto">
+            Advanced community & gaming server setups with custom bots.
+          </p>
+        </div>
+
+        <!-- Service Card 4 -->
+        <div class="relative rounded-2xl glass-morphic glow-border p-6.5 flex flex-col h-full hover:bg-white/[0.04] hover:-translate-y-2 hover:shadow-[0_12px_32px_rgba(6,182,212,0.15)] transition-all duration-300 group overflow-hidden" 
+             data-aos="fade-up" data-aos-delay="200">
+          <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center mb-5 group-hover:bg-cyan-500 group-hover:text-white transition-all duration-300">
+            <i class="fa-solid fa-gamepad text-cyan-400 text-lg group-hover:text-white transition-colors"></i>
+          </div>
+          <h3 class="font-display text-lg font-bold text-white mb-2.5">Gaming Landings</h3>
+          <p class="text-sm text-gray-400 leading-relaxed mt-auto">
+            Aggressive, futuristic designs for teams and esports events.
+          </p>
+        </div>
+
+        <!-- Service Card 5 -->
+        <div class="relative rounded-2xl glass-morphic glow-border p-6.5 flex flex-col h-full hover:bg-white/[0.04] hover:-translate-y-2 hover:shadow-[0_12px_32px_rgba(168,85,247,0.15)] transition-all duration-300 group overflow-hidden" 
+             data-aos="fade-up" data-aos-delay="250">
+          <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-5 group-hover:bg-purple-500 group-hover:text-white transition-all duration-300">
+            <i class="fa-solid fa-briefcase text-purple-400 text-lg group-hover:text-white transition-colors"></i>
+          </div>
+          <h3 class="font-display text-lg font-bold text-white mb-2.5">Business Portfolios</h3>
+          <p class="text-sm text-gray-400 leading-relaxed mt-auto">
+            Clean and corporate websites to build professional trust.
+          </p>
+        </div>
+
+        <!-- Service Card 6 -->
+        <div class="relative rounded-2xl glass-morphic glow-border p-6.5 flex flex-col h-full hover:bg-white/[0.04] hover:-translate-y-2 hover:shadow-[0_12px_32px_rgba(6,182,212,0.15)] transition-all duration-300 group overflow-hidden" 
+             data-aos="fade-up" data-aos-delay="300">
+          <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center mb-5 group-hover:bg-cyan-500 group-hover:text-white transition-all duration-300">
+            <i class="fa-solid fa-bezier-curve text-cyan-400 text-lg group-hover:text-white transition-colors"></i>
+          </div>
+          <h3 class="font-display text-lg font-bold text-white mb-2.5">Brand Identity</h3>
+          <p class="text-sm text-gray-400 leading-relaxed mt-auto">
+            Logo design and visual guidelines for a cohesive look.
+          </p>
+        </div>
+
+        <!-- Service Card 7 -->
+        <div class="relative rounded-2xl glass-morphic glow-border p-6.5 flex flex-col h-full hover:bg-white/[0.04] hover:-translate-y-2 hover:shadow-[0_12px_32px_rgba(168,85,247,0.15)] transition-all duration-300 group overflow-hidden" 
+             data-aos="fade-up" data-aos-delay="350">
+          <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-5 group-hover:bg-purple-500 group-hover:text-white transition-all duration-300">
+            <i class="fa-solid fa-code text-purple-400 text-lg group-hover:text-white transition-colors"></i>
+          </div>
+          <h3 class="font-display text-lg font-bold text-white mb-2.5">Frontend Dev</h3>
+          <p class="text-sm text-gray-400 leading-relaxed mt-auto">
+            Clean, efficient, and interactive code built with React/Next.js.
+          </p>
+        </div>
+
+        <!-- Service Card 8 -->
+        <div class="relative rounded-2xl glass-morphic glow-border p-6.5 flex flex-col h-full hover:bg-white/[0.04] hover:-translate-y-2 hover:shadow-[0_12px_32px_rgba(6,182,212,0.15)] transition-all duration-300 group overflow-hidden" 
+             data-aos="fade-up" data-aos-delay="400">
+          <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center mb-5 group-hover:bg-cyan-500 group-hover:text-white transition-all duration-300">
+            <i class="fa-solid fa-mobile-screen-button text-cyan-400 text-lg group-hover:text-white transition-colors"></i>
+          </div>
+          <h3 class="font-display text-lg font-bold text-white mb-2.5">Responsive UI</h3>
+          <p class="text-sm text-gray-400 leading-relaxed mt-auto">
+            Websites that look perfect on every device, from phone to desktop.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. PROJECTS SECTION -->
+    <section id="projects" class="relative py-28 px-6 bg-gradient-to-b from-brand-dark via-[#04040d]/60 to-brand-dark scroll-mt-20">
+      <div class="max-w-7xl mx-auto" id="projects-container">
+        <!-- Section Header -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-16" data-aos="fade-up">
+          <div class="mb-4 md:mb-0">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="h-[1px] w-6 bg-cyan-400"></span>
+              <span class="text-xs font-semibold uppercase tracking-widest text-[#06b6d4]">Portfolio Showcase</span>
+            </div>
+            <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-white tracking-tight uppercase mb-2">
+              Selected Projects
+            </h2>
+            <p class="text-sm text-gray-400">A showcase of premium digital works.</p>
+          </div>
+          
+          <div class="text-xs font-mono text-gray-500 uppercase tracking-widest hidden md:block">
+            MANUFACTURING SOLUTIONS — //2026
+          </div>
+        </div>
+
+        <!-- Projects Cards Grid. 3 Projects -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid">
+          
+          <!-- Project Card 1: HDX Cloud Hosting -->
+          <div class="group relative rounded-2xl overflow-hidden glass-morphic glow-border p-4 transition-all duration-300 hover:shadow-[0_20px_40px_rgba(168,85,247,0.2)]" 
+               data-aos="fade-up" data-aos-delay="100">
+            <!-- Visual Graphic Thumbnail Holder -->
+            <div class="relative aspect-[16/10] rounded-xl overflow-hidden mb-5 bg-[radial-gradient(circle_at_top_right,rgba(168,85,247,0.2),transparent_60%)] border border-white/5 flex items-center justify-center">
+              <!-- Animated wireframe bg -->
+              <div class="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-indigo-950/20 to-brand-dark"></div>
+              <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle, #fff 1px, transparent 1px); background-size: 16px 16px;"></div>
+              
+              <!-- Giant visual icon in center -->
+              <div class="relative z-10 w-20 h-20 rounded-full bg-purple-500/10 border border-purple-500/20 flex items-center justify-center hover:scale-110 duration-500 shadow-[0_0_20px_rgba(168,85,247,0.1)]">
+                <i class="fa-solid fa-server text-3xl text-purple-400"></i>
+              </div>
+
+              <!-- Animated bottom scanner line -->
+              <div class="absolute bottom-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-purple-500 to-transparent shadow-[0_0_12px_#a855f7] transform translate-y-full group-hover:translate-y-[-100px] transition-transform duration-1000 ease-in-out"></div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="px-2 pb-2">
+              <span class="inline-block text-[10px] font-mono font-bold tracking-wider uppercase text-purple-400 px-3 py-1 rounded-full bg-purple-950/40 border border-purple-500/20 mb-3.5">
+                Hosting
+              </span>
+              <h3 class="font-display text-xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">
+                HDX Cloud Hosting
+              </h3>
+              <p class="text-sm text-gray-400 leading-relaxed mb-4">
+                Full-stack hosting platform with WHMCS integration.
+              </p>
+              
+              <!-- Footer detail action link mock -->
+              <div class="flex items-center gap-1.5 text-xs font-semibold text-gray-200 group-hover:text-white transition-colors">
+                Explore Architecture <i class="fa-solid fa-xs fa-arrow-up-right-from-square ml-1 opacity-70 group-hover:translate-x-0.5 duration-200"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project Card 2: Esports Portfolio -->
+          <div class="group relative rounded-2xl overflow-hidden glass-morphic glow-border p-4 transition-all duration-300 hover:shadow-[0_20px_40px_rgba(6,182,212,0.2)]" 
+               data-aos="fade-up" data-aos-delay="200">
+            <!-- Visual Graphic Thumbnail Holder -->
+            <div class="relative aspect-[16/10] rounded-xl overflow-hidden mb-5 bg-[radial-gradient(circle_at_top_right,rgba(6,182,212,0.2),transparent_60%)] border border-white/5 flex items-center justify-center">
+              <!-- Animated wireframe bg -->
+              <div class="absolute inset-0 bg-gradient-to-br from-cyan-900/30 via-slate-900/20 to-brand-dark"></div>
+              <div class="absolute inset-0 opacity-10" style="background-image: linear-gradient(0deg, transparent 24%, rgba(255, 255, 255, .05) 25%, rgba(255, 255, 255, .05) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, .05) 75%, rgba(255, 255, 255, .05) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(255, 255, 255, .05) 25%, rgba(255, 255, 255, .05) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, .05) 75%, rgba(255, 255, 255, .05) 76%, transparent 77%, transparent); background-size:40px 40px;"></div>
+              
+              <!-- Giant visual icon in center -->
+              <div class="relative z-10 w-20 h-20 rounded-full bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center hover:scale-110 duration-500 shadow-[0_0_20px_rgba(6,182,212,0.1)]">
+                <i class="fa-solid fa-gamepad text-3xl text-cyan-400"></i>
+              </div>
+
+              <!-- Animated bottom scanner line -->
+              <div class="absolute bottom-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-500 to-transparent shadow-[0_0_12px_#06b6d4] transform translate-y-full group-hover:translate-y-[-100px] transition-transform duration-1000 ease-in-out"></div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="px-2 pb-2">
+              <span class="inline-block text-[10px] font-mono font-bold tracking-wider uppercase text-cyan-400 px-3 py-1 rounded-full bg-cyan-950/40 border border-cyan-500/20 mb-3.5">
+                Gaming
+              </span>
+              <h3 class="font-display text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">
+                Esports Portfolio
+              </h3>
+              <p class="text-sm text-gray-400 leading-relaxed mb-4">
+                Futuristic landing page for pro-gaming teams.
+              </p>
+              
+              <!-- Footer detail action link mock -->
+              <div class="flex items-center gap-1.5 text-xs font-semibold text-gray-200 group-hover:text-white transition-colors">
+                Explore Architecture <i class="fa-solid fa-xs fa-arrow-up-right-from-square ml-1 opacity-70 group-hover:translate-x-0.5 duration-200"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project Card 3: HDX Hub Discord -->
+          <div class="group relative rounded-2xl overflow-hidden glass-morphic glow-border p-4 transition-all duration-300 hover:shadow-[0_20px_40px_rgba(168,85,247,0.2)]" 
+               data-aos="fade-up" data-aos-delay="300">
+            <!-- Visual Graphic Thumbnail Holder -->
+            <div class="relative aspect-[16/10] rounded-xl overflow-hidden mb-5 bg-[radial-gradient(circle_at_top_right,rgba(168,85,247,0.2),transparent_60%)] border border-white/5 flex items-center justify-center">
+              <!-- Animated wireframe bg -->
+              <div class="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-violet-950/20 to-brand-dark"></div>
+              <div class="absolute inset-x-0 h-full opacity-[0.05]" style="background-image: radial-gradient(circle, #fff 1.5px, transparent 1.5px); background-size: 24px 24px;"></div>
+              
+              <!-- Giant visual icon in center -->
+              <div class="relative z-10 w-20 h-20 rounded-full bg-purple-500/10 border border-purple-500/20 flex items-center justify-center hover:scale-110 duration-500 shadow-[0_0_20px_rgba(168,85,247,0.1)]">
+                <i class="fa-brands fa-discord text-3xl text-purple-400"></i>
+              </div>
+
+              <!-- Animated bottom scanner line -->
+              <div class="absolute bottom-0 inset-x-0 h.[2px] bg-gradient-to-r from-transparent via-purple-500 to-transparent shadow-[0_0_12px_#a855f7] transform translate-y-full group-hover:translate-y-[-100px] transition-transform duration-1000 ease-in-out"></div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="px-2 pb-2">
+              <span class="inline-block text-[10px] font-mono font-bold tracking-wider uppercase text-purple-400 px-3 py-1 rounded-full bg-purple-950/40 border border-purple-500/20 mb-3.5">
+                Community
+              </span>
+              <h3 class="font-display text-xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">
+                HDX Hub Discord
+              </h3>
+              <p class="text-sm text-gray-400 leading-relaxed mb-4">
+                A highly automated server architecture for 5k+ members.
+              </p>
+              
+              <!-- Footer detail action link mock -->
+              <div class="flex items-center gap-1.5 text-xs font-semibold text-gray-200 group-hover:text-white transition-colors">
+                Explore Architecture <i class="fa-solid fa-xs fa-arrow-up-right-from-square ml-1 opacity-70 group-hover:translate-x-0.5 duration-200"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. WHY CHOOSE ME SECTION -->
+    <section id="why-choose-me" class="relative py-28 px-6 max-w-7xl mx-auto scroll-mt-20">
+      <!-- Section Header -->
+      <div class="text-center mb-16" data-aos="fade-up">
+        <div class="flex items-center justify-center gap-3 mb-4">
+          <span class="h-[1px] w-6 bg-cyan-400"></span>
+          <span class="text-xs font-semibold uppercase tracking-widest text-[#06b6d4]">Performance Matrix</span>
+          <span class="h-[1px] w-6 bg-cyan-400"></span>
+        </div>
+        <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-white tracking-tight uppercase">
+          Why Choose Me
+        </h2>
+      </div>
+
+      <!-- Glass Panel stats container -->
+      <div class="glass-morphic glow-border max-w-5xl mx-auto p-12 rounded-3xl shadow-2xl relative overflow-hidden" 
+           data-aos="fade-up" id="why-stats-panel">
+        <!-- Abstract gradient mesh overlay -->
+        <div class="absolute inset-0 bg-gradient-to-tr from-purple-500/[0.02] via-transparent to-cyan-500/[0.02] pointer-events-none"></div>
+
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 relative z-10" id="stats-grid">
+          <!-- Stat 1 -->
+          <div class="flex flex-col items-center text-center group">
+            <div class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-4 text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition-all duration-300">
+              <i class="fa-solid fa-bolt text-lg"></i>
+            </div>
+            <!-- Large bold text labels -->
+            <div class="font-display text-3xl sm:text-5xl font-black text-white tracking-tight leading-none mb-3 group-hover:text-purple-400 transition-colors">
+              Fast
+            </div>
+            <div class="text-xs sm:text-sm font-semibold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-gray-500 uppercase">
+              Delivery Time
+            </div>
+          </div>
+
+          <!-- Stat 2 -->
+          <div class="flex flex-col items-center text-center group">
+            <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center mb-4 text-cyan-400 group-hover:bg-cyan-500 group-hover:text-white transition-all duration-300">
+              <i class="fa-solid fa-gem text-lg"></i>
+            </div>
+            <div class="font-display text-3xl sm:text-5xl font-black text-white tracking-tight leading-none mb-3 group-hover:text-cyan-400 transition-colors">
+              Premium
+            </div>
+            <div class="text-xs sm:text-sm font-semibold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-gray-500 uppercase">
+              UI/UX Standards
+            </div>
+          </div>
+
+          <!-- Stat 3 -->
+          <div class="flex flex-col items-center text-center group">
+            <div class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-4 text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition-all duration-300">
+              <i class="fa-solid fa-headphones-simple text-lg"></i>
+            </div>
+            <div class="font-display text-3xl sm:text-5xl font-black text-white tracking-tight leading-none mb-3 group-hover:text-purple-400 transition-colors">
+              24/7
+            </div>
+            <div class="text-xs sm:text-sm font-semibold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-gray-500 uppercase">
+              Support Response
+            </div>
+          </div>
+
+          <!-- Stat 4 -->
+          <div class="flex flex-col items-center text-center group">
+            <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center mb-4 text-cyan-400 group-hover:bg-cyan-500 group-hover:text-white transition-all duration-300">
+              <i class="fa-solid fa-up-right-and-down-left-from-center text-lg"></i>
+            </div>
+            <div class="font-display text-3xl sm:text-5xl font-black text-white tracking-tight leading-none mb-3 group-hover:text-cyan-400 transition-colors">
+              100%
+            </div>
+            <div class="text-xs sm:text-sm font-semibold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-gray-500 uppercase">
+              Responsive
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. CONTACT SECTION -->
+    <section id="contact" class="relative py-28 px-6 max-w-7xl mx-auto scroll-mt-20">
+      <!-- Section Header -->
+      <div class="text-center mb-16" data-aos="fade-up">
+        <div class="flex items-center justify-center gap-3 mb-4">
+          <span class="h-[1px] w-6 bg-purple-500"></span>
+          <span class="text-xs font-semibold uppercase tracking-widest text-[#a855f7]">Initiate Connection</span>
+          <span class="h-[1px] w-6 bg-purple-500"></span>
+        </div>
+        <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-white tracking-tight uppercase max-w-xl mx-auto">
+          Let's build something premium together.
+        </h2>
+      </div>
+
+      <!-- Contact grid with 3 gorgeous glass cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto" id="contact-wrapper">
+        
+        <!-- Instagram Card -->
+        <a href="https://instagram.com/hdx_1.0" target="_blank" rel="noopener noreferrer" 
+           class="group relative rounded-2xl overflow-hidden glass-morphic glow-border p-8 flex flex-col items-center text-center hover:bg-white/[0.04] hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(236,72,153,0.15)] transition-all duration-300" 
+           data-aos="fade-up" data-aos-delay="100">
+          <div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 opacity-60"></div>
+          
+          <div class="w-14 h-14 rounded-full bg-pink-500/10 border border-pink-500/20 flex items-center justify-center mb-6 group-hover:bg-gradient-to-tr group-hover:from-pink-500 group-hover:to-purple-500 text-pink-400 group-hover:text-white transition-all duration-500 shadow-[0_0_15px_rgba(236,72,153,0.1)]">
+            <i class="fa-brands fa-instagram text-2xl"></i>
+          </div>
+          
+          <h3 class="font-display text-xl font-bold text-white mb-2">Instagram</h3>
+          <p class="text-sm font-mono text-pink-400 font-semibold mb-3">@hdx_1.0</p>
+          <p class="text-xs text-gray-400 mt-auto leading-relaxed">Follow my creative journey and direct message for inquiries.</p>
+          
+          <span class="mt-6 inline-flex items-center gap-2 text-xs font-bold text-white bg-white/5 py-2 px-5.5 rounded-full border border-white/5 group-hover:bg-white/10 group-hover:border-white/10 transition-all duration-300">
+            Open App <i class="fa-solid fa-arrow-up-right-from-square text-[10px] opacity-75"></i>
+          </span>
+        </a>
+
+        <!-- Discord Card with dynamic Copying utility -->
+        <div class="group relative rounded-2xl overflow-hidden glass-morphic glow-border p-8 flex flex-col items-center text-center hover:bg-white/[0.04] hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(114,137,218,0.15)] transition-all duration-300" 
+             data-aos="fade-up" data-aos-delay="200" id="discord-card">
+          <div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-[#7289da] to-indigo-500 opacity-60"></div>
+          
+          <div class="w-14 h-14 rounded-full bg-[#7289da]/10 border border-[#7289da]/20 flex items-center justify-center mb-6 group-hover:bg-[#7289da] text-[#7289da] group-hover:text-white transition-all duration-500 shadow-[0_0_15px_rgba(114,137,218,0.1)]">
+            <i class="fa-brands fa-discord text-2xl"></i>
+          </div>
+          
+          <h3 class="font-display text-xl font-bold text-white mb-2">Discord ID</h3>
+          <p class="text-sm font-mono text-[#7289da] font-semibold mb-3">hdx_1.0</p>
+          <p class="text-xs text-gray-400 mt-auto leading-relaxed">Direct chat or add me for high-performance service setup projects.</p>
+          
+          <button onclick="copyDiscordId()" class="relative mt-6 inline-flex items-center gap-2 text-xs font-bold text-white bg-white/5 py-2 px-5.5 rounded-full border border-white/5 group-hover:bg-white/10 group-hover:border-white/10 transition-all duration-300 focus:outline-none" id="discord-copy-btn">
+            <span id="discord-btn-text">Copy ID</span> <i class="fa-solid fa-copy text-[10px] opacity-75" id="discord-btn-icon"></i>
+          </button>
+        </div>
+
+        <!-- WhatsApp Card -->
+        <a href="https://wa.me/919433417691" target="_blank" rel="noopener noreferrer" 
+           class="group relative rounded-2xl overflow-hidden glass-morphic glow-border p-8 flex flex-col items-center text-center hover:bg-white/[0.04] hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(37,211,102,0.15)] transition-all duration-300" 
+           data-aos="fade-up" data-aos-delay="300">
+          <div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-[#25D366] to-emerald-500 opacity-60"></div>
+          
+          <div class="w-14 h-14 rounded-full bg-[#25D366]/10 border border-[#25D366]/20 flex items-center justify-center mb-6 group-hover:bg-[#25D366] text-[#25D366] group-hover:text-white transition-all duration-500 shadow-[0_0_15px_rgba(37,211,102,0.1)]">
+            <i class="fa-brands fa-whatsapp text-2xl"></i>
+          </div>
+          
+          <h3 class="font-display text-xl font-bold text-white mb-2">WhatsApp</h3>
+          <p class="text-sm font-mono text-[#25D366] font-semibold mb-3">9433417691</p>
+          <p class="text-xs text-gray-400 mt-auto leading-relaxed">Quick texting, live consultations, and immediate assistance responses.</p>
+          
+          <span class="mt-6 inline-flex items-center gap-2 text-xs font-bold text-white bg-white/5 py-2 px-5.5 rounded-full border border-white/5 group-hover:bg-white/10 group-hover:border-white/10 transition-all duration-300">
+            Open Chat <i class="fa-solid fa-arrow-up-right-from-square text-[10px] opacity-75"></i>
+          </span>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- 9. FOOTER -->
+    <footer class="relative z-10 w-full bg-[#020205] border-t border-white/5 md:py-16 py-12 px-6">
+      <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8" id="footer-container">
+        
+        <!-- Logo copyright -->
+        <div class="flex flex-col items-center md:items-start text-center md:text-left gap-2.5">
+          <a href="#home" class="flex items-center gap-2 font-display text-xl font-bold tracking-wider uppercase text-white hover:opacity-90 transition-opacity">
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-400 font-extrabold">HDX</span><span class="text-cyan-400">.</span>
+          </a>
+          <p class="text-xs text-gray-500 tracking-wide">
+            © 2026 HDX | Aman. All rights reserved.
+          </p>
+        </div>
+
+        <!-- Social Icons with custom tags and glows -->
+        <div class="flex items-center gap-4.5" id="social-links">
+          <!-- Behance -->
+          <a href="#" class="w-10 h-10 rounded-full bg-white/[0.02] border border-white/5 text-gray-400 hover:text-white flex items-center justify-center hover:bg-purple-950/40 hover:border-purple-500/30 hover:scale-115 hover:shadow-[0_0_15px_rgba(168,85,247,0.3)] transition-all duration-300" aria-label="Behance">
+            <i class="fa-brands fa-behance"></i>
+          </a>
+          <!-- GitHub -->
+          <a href="#" class="w-10 h-10 rounded-full bg-white/[0.02] border border-white/5 text-gray-400 hover:text-white flex items-center justify-center hover:bg-cyan-950/40 hover:border-cyan-500/30 hover:scale-115 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all duration-300" aria-label="GitHub">
+            <i class="fa-brands fa-github"></i>
+          </a>
+          <!-- Twitter -->
+          <a href="#" class="w-10 h-10 rounded-full bg-white/[0.02] border border-white/5 text-gray-400 hover:text-white flex items-center justify-center hover:bg-purple-950/40 hover:border-purple-500/30 hover:scale-115 hover:shadow-[0_0_15px_rgba(168,85,247,0.3)] transition-all duration-300" aria-label="Twitter">
+            <i class="fa-brands fa-x-twitter"></i>
+          </a>
+        </div>
+      </div>
     </footer>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- CODE SCRIPT LOGIC -->
     <script>
-        // Initialize AOS (Animate on Scroll)
-        AOS.init({
-            duration: 1000,
-            once: true,
-            easing: 'ease-out-cubic'
-        });
+      // Initialize AOS with premium parameters
+      AOS.init({
+        duration: 900,
+        twice: false,
+        once: true,
+        easing: 'ease-out-quint',
+      });
 
-        // Initialize Typed.js
-        var typed = new Typed('#typed', {
-            strings: [
-                'Web Designer', 
-                'Hosting Brand Owner', 
-                'Discord Setup Expert', 
-                'UI/UX Enthusiast'
-            ],
-            typeSpeed: 50,
-            backSpeed: 30,
-            backDelay: 2000,
-            loop: true
-        });
+      // Initialize Typed.js for dynamic typing animation
+      var typed = new Typed('#typed-element', {
+        strings: ['Web Designer', 'Hosting Brand Owner', 'Discord Setup Expert', 'UI/UX Enthusiast'],
+        typeSpeed: 50,
+        backSpeed: 30,
+        backDelay: 1800,
+        loop: true
+      });
 
-        // Navbar Scroll Effect
-        window.addEventListener('scroll', function() {
-            const nav = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                nav.classList.add('scrolled', 'py-2');
-                nav.classList.remove('py-4');
-            } else {
-                nav.classList.remove('scrolled', 'py-2');
-                nav.classList.add('py-4');
-            }
-        });
+      // Sticky Navbar and Back-To-Top trigger handler on scrolling
+      const header = document.getElementById('sticky-header');
+      const backToTopBtn = document.getElementById('back-to-top');
 
-        // Smooth Scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+      window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+
+        // Navbar blur glass density increase
+        if (scrolled > 50) {
+          header.classList.add('shadow-[0_10px_30px_rgba(0,0,0,0.4)]');
+        } else {
+          header.classList.remove('shadow-[0_10px_30px_rgba(0,0,0,0.4)]');
+        }
+
+        // Back to top opacity trigger
+        if (scrolled > 400) {
+          backToTopBtn.classList.remove('opacity-0', 'pointer-events-none');
+          backToTopBtn.classList.add('opacity-100', 'pointer-events-auto');
+        } else {
+          backToTopBtn.classList.add('opacity-0', 'pointer-events-none');
+          backToTopBtn.classList.remove('opacity-100', 'pointer-events-auto');
+        }
+
+        // Wallpaper parallax-like zooming depth
+        const heroBg = document.getElementById('hero-bg');
+        if (heroBg) {
+          heroBg.style.transform = `translateY(${scrolled * 0.15}px) scale(${1.05 + scrolled * 0.00012})`;
+        }
+      });
+
+      // Mobile Hamburguer Toggle Setup
+      const menuBtn = document.getElementById('mobile-menu-btn');
+      const menuBtnIcon = document.getElementById('menu-btn-icon');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const mobileMenuBg = document.getElementById('mobile-menu-bg');
+
+      function toggleMobileMenu() {
+        const isOpen = !mobileMenu.classList.contains('translate-x-full');
+        if (isOpen) {
+          // Close
+          mobileMenu.classList.add('translate-x-full');
+          mobileMenuBg.classList.add('opacity-0');
+          setTimeout(() => {
+            mobileMenuBg.classList.add('hidden');
+          }, 300);
+          menuBtnIcon.className = 'fa-solid fa-bars-staggered text-2xl';
+        } else {
+          // Open
+          mobileMenuBg.classList.remove('hidden');
+          setTimeout(() => {
+            mobileMenuBg.classList.remove('opacity-0');
+          }, 10);
+          mobileMenu.classList.remove('translate-x-full');
+          menuBtnIcon.className = 'fa-solid fa-xmark text-2xl';
+        }
+      }
+
+      menuBtn.addEventListener('click', toggleMobileMenu);
+      mobileMenuBg.addEventListener('click', toggleMobileMenu);
+
+      // Close menu when links are clicked
+      document.querySelectorAll('.mobile-link').forEach(link => {
+        link.addEventListener('click', () => {
+          if (!mobileMenu.classList.contains('translate-x-full')) {
+            toggleMobileMenu();
+          }
+        });
+      });
+
+      // Intersection Observer for Skill Progress Bars
+      const skillSectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const bars = entry.target.querySelectorAll('.progress-bar');
+            bars.forEach(bar => {
+              const targetWidth = bar.getAttribute('data-percent');
+              bar.style.width = targetWidth;
             });
+            // Stop observing once they are animated on screen
+            skillSectionObserver.unobserve(entry.target);
+          }
         });
+      }, { threshold: 0.15 });
+
+      const skillsPanel = document.getElementById('skills-panel');
+      if (skillsPanel) {
+        skillSectionObserver.observe(skillsPanel);
+      }
+
+      // Copy Discord ID utility handler
+      function copyDiscordId() {
+        const discordId = "hdx_1.0";
+        navigator.clipboard.writeText(discordId).then(() => {
+          const btnText = document.getElementById('discord-btn-text');
+          const btnIcon = document.getElementById('discord-btn-icon');
+          
+          btnText.innerText = "Copied!";
+          btnText.className = "text-green-400";
+          btnIcon.className = "fa-solid fa-check text-[10px] text-green-400";
+          
+          setTimeout(() => {
+            btnText.innerText = "Copy ID";
+            btnText.className = "text-white";
+            btnIcon.className = "fa-solid fa-copy text-[10px] opacity-75";
+          }, 2000);
+        }).catch(err => {
+          console.error('Failed to copy ID: ', err);
+        });
+      }
     </script>
-</body>
+  </body>
 </html>
